@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пиццерия Джарвис</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 0;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #111;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #00a8ff;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00a8ff;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .cart-info {
+            background: #1a1a1a;
+            padding: 8px 15px;
+            border-radius: 5px;
+            color: white;
+            border: 1px solid #00a8ff;
+        }
+        
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cat-btn {
+            background: #111;
+            border: 1px solid #00a8ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .cat-btn:hover, .cat-btn.active {
+            background: #00a8ff;
+            color: black;
+        }
+        
+        .category-title {
+            color: #00a8ff;
+            font-size: 1.8em;
+            margin: 30px 0 15px 0;
+            border-left: 4px solid #00a8ff;
+            padding-left: 15px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .product-card {
+            background: #111;
+            border: 1px solid #00a8ff;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        
+        .product-image {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .product-image img {
+            max-width: 60px;
+            max-height: 60px;
+        }
+        
+        .product-name {
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #00a8ff;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .product-desc {
+            color: #ccc;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .add-btn {
+            background: #111;
+            border: 1px solid #00a8ff;
+            color: #00a8ff;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+        
+        .add-btn:hover {
+            background: #00a8ff;
+            color: black;
+        }
+        
+        .cart {
+            background: #111;
+            border: 2px solid #00a8ff;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .cart h2 {
+            color: #00a8ff;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #00a8ff;
+            padding-bottom: 10px;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+            color: white;
+        }
+        
+        .cart-item button {
+            background: #330000;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .cart-item button:hover {
+            background: #ff4444;
+            color: white;
+        }
+        
+        .cart-total {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 1.5em;
+            color: #00a8ff;
+        }
+        
+        .checkout-btn {
+            background: #00a8ff;
+            border: none;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .checkout-btn:hover {
+            background: #0088cc;
+        }
+        
+        .contacts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            color: white;
+            text-align: center;
+        }
+        
+        .contact-item {
+            background: #111;
+            border: 1px solid #00a8ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            color: #666;
+            border-top: 1px solid #333;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: #111;
+            border: 3px solid #00a8ff;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 0.5s;
+            box-shadow: 0 0 30px #00a8ff;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-content h2 {
+            color: #00a8ff;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .modal-content p {
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .modal-content button {
+            background: #00a8ff;
+            border: none;
+            color: black;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal-content button:hover {
+            background: #0088cc;
+            transform: scale(1.05);
+        }
+        
+        .modal-content .emoji {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+            .contacts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="thankYouModal" class="modal">
+        <div class="modal-content">
+            <span class="emoji">🎉</span>
+            <h2>Спасибо за заказ!</h2>
+            <p>Благодарим вас, что выбрали нас!<br>Ожидайте ответа, скоро мы свяжемся с вами.</p>
+            <button onclick="closeModal()">Хорошо</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <div class="logo">
+                <img src="https://e.radikal.host/2026/03/16/1000090693.png" alt="JARVIS">
+                <span class="logo-text">Пиццерия Джарвис</span>
+            </div>
+            <div class="cart-info">
+                🛒 <span id="cart-count">0</span> шт
+            </div>
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active" onclick="location.href='/'">Все</button>
+            <button class="cat-btn" onclick="location.href='/?cat=pizza'">🍕 Пицца</button>
+            <button class="cat-btn" onclick="location.href='/?cat=drinks'">🥤 Напитки</button>
+            <button class="cat-btn" onclick="location.href='/?cat=desserts'">🍰 Десерты</button>
+        </div>
+
+        <div class="category-title">🍕 ПИЦЦА</div>
+        <div class="products" id="pizza-products"></div>
+
+        <div class="category-title">🥤 НАПИТКИ</div>
+        <div class="products" id="drinks-products"></div>
+
+        <div class="category-title">🍰 ДЕСЕРТЫ</div>
+        <div class="products" id="desserts-products"></div>
+
+        <div class="cart">
+            <h2>🛒 Корзина</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total" id="cart-total">💰 0 ₽</div>
+            <button class="checkout-btn" onclick="checkout()">✅ Заказать</button>
+        </div>
+
+        <div class="contacts">
+            <div class="contact-item">📞 +7 (999) 123-45-67</div>
+            <div class="contact-item">📍 ул. Тверская, 15</div>
+            <div class="contact-item">🕒 10:00 - 23:00</div>
+        </div>
+
+        <div class="footer">
+            Пиццерия Джарвис © 2026
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, cat: 'pizza', name: 'Пепперони', price: 550, emoji: '🍕' },
+            { id: 2, cat: 'pizza', name: 'Маргарита', price: 450, emoji: '🍕' },
+            { id: 3, cat: 'pizza', name: 'Гавайская', price: 600, emoji: '🍕' },
+            { id: 4, cat: 'pizza', name: 'Мясная', price: 650, emoji: '🍕' },
+            { id: 5, cat: 'pizza', name: 'Четыре сыра', price: 580, emoji: '🍕' },
+            { id: 6, cat: 'drinks', name: 'Кола', price: 100, emoji: '🥤', image: 'https://e.radikal.host/2026/03/16/1000090699.png' },
+            { id: 7, cat: 'drinks', name: 'Спрайт', price: 100, emoji: '🥤', image: 'https://e.radikal.host/2026/03/16/1000090697b824a5e40efc3ab2.png' },
+            { id: 8, cat: 'drinks', name: 'Фанта', price: 100, emoji: '🥤', image: 'https://e.radikal.host/2026/03/16/1000090701.png' },
+            { id: 9, cat: 'drinks', name: 'Сок апельсиновый', price: 120, emoji: '🧃' },
+            { id: 10, cat: 'desserts', name: 'Чизкейк', price: 250, emoji: '🍰' },
+            { id: 11, cat: 'desserts', name: 'Брауни', price: 200, emoji: '🍫' },
+            { id: 12, cat: 'desserts', name: 'Панна-котта', price: 230, emoji: '🍮' }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+        function renderProducts() {
+            for (let cat of ['pizza', 'drinks', 'desserts']) {
+                const container = document.getElementById(cat + '-products');
+                container.innerHTML = '';
+                products.filter(p => p.cat === cat).forEach(p => {
+                    container.innerHTML += `
+                        <div class="product-card">
+                            ${p.image ? `<div class="product-image"><img src="${p.image}" alt="${p.name}"></div>` : ''}
+                            <div class="product-name">${p.emoji} ${p.name}</div>
+                            <div class="product-price">${p.price} ₽</div>
+                            <button class="add-btn" onclick="addToCart(${p.id})">➕ Добавить</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            if (cart[id]) {
+                cart[id].quantity += 1;
+            } else {
+                cart[id] = {
+                    name: `${product.emoji} ${product.name}`,
+                    price: product.price,
+                    quantity: 1
+                };
+            }
+            
+            saveCart();
+            updateCart();
+        }
+
+        function removeFromCart(id) {
+            if (confirm('Удалить?')) {
+                delete cart[id];
+                saveCart();
+                updateCart();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCart() {
+            const items = document.getElementById('cart-items');
+            const totalSpan = document.getElementById('cart-total');
+            const countSpan = document.getElementById('cart-count');
+            
+            let html = '';
+            let total = 0;
+            let count = 0;
+            
+            for (let id in cart) {
+                const item = cart[id];
+                total += item.price * item.quantity;
+                count += item.quantity;
+                html += `<div class="cart-item">
+                    <span>${item.name} x${item.quantity}</span>
+                    <span>${item.price * item.quantity} ₽
+                        <button onclick="removeFromCart(${id})">✕</button>
+                    </span>
+                </div>`;
+            }
+            
+            items.innerHTML = html || '<div style="text-align:center; padding:15px;">Пусто</div>';
+            totalSpan.innerHTML = `💰 ${total} ₽`;
+            countSpan.textContent = count;
+        }
+
+        function checkout() {
+            if (Object.keys(cart).length === 0) {
+                alert('Корзина пуста!');
+                return;
+            }
+            
+            document.getElementById('thankYouModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('thankYouModal').style.display = 'none';
+            cart = {};
+            saveCart();
+            updateCart();
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('thankYouModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+                cart = {};
+                saveCart();
+                updateCart();
+            }
+        };
+
+        renderProducts();
+        updateCart();
+    </script>
+</body>
+</html>
