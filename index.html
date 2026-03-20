@@ -93,11 +93,17 @@
         .product-image {
             text-align: center;
             margin-bottom: 10px;
+            cursor: pointer;
         }
         
         .product-image img {
             max-width: 60px;
             max-height: 60px;
+            transition: transform 0.2s;
+        }
+        
+        .product-image img:hover {
+            transform: scale(1.1);
         }
         
         .product-name {
@@ -218,7 +224,7 @@
             border-top: 1px solid #333;
         }
         
-        .modal {
+        .modal, .image-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -239,6 +245,18 @@
             max-width: 500px;
             text-align: center;
             box-shadow: 0 0 30px #00a8ff;
+        }
+        
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .image-modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #00a8ff;
         }
         
         .modal-content h2 {
@@ -286,6 +304,12 @@
             <h2>Спасибо за заказ!</h2>
             <p>Благодарим вас, что выбрали нас!<br>Ожидайте ответа</p>
             <button onclick="closeModal()">Хорошо</button>
+        </div>
+    </div>
+
+    <div id="imageModal" class="image-modal" onclick="closeImageModal()">
+        <div class="image-modal-content">
+            <img id="modalImage" src="" alt="Увеличенное фото">
         </div>
     </div>
 
@@ -338,13 +362,25 @@
 
         let cart = JSON.parse(localStorage.getItem('cart')) || {};
 
+        const BOT_TOKEN = '8211100252:AAGkEDqdHJDK_3GvihoDVycnbJAjmcRJ1nY';
+        const CHAT_ID = 5382774705;
+
+        function showImage(imgSrc) {
+            document.getElementById('modalImage').src = imgSrc;
+            document.getElementById('imageModal').style.display = 'flex';
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
         function renderProducts() {
             const container = document.getElementById('all-products');
             container.innerHTML = '';
             products.forEach(p => {
                 container.innerHTML += `
                     <div class="product-card">
-                        ${p.img ? `<div class="product-image"><img src="${p.img}" alt="${p.name}"></div>` : ''}
+                        ${p.img ? `<div class="product-image" onclick="showImage('${p.img}')"><img src="${p.img}" alt="${p.name}"></div>` : ''}
                         <div class="product-name">${p.name}</div>
                         <div class="product-price">${p.price} ₽</div>
                         <div class="product-desc">${p.desc}</div>
@@ -414,6 +450,30 @@
                 alert('Корзина пуста!');
                 return;
             }
+            
+            let message = '🛍 *НОВЫЙ ЗАКАЗ С САЙТА!*\n\n';
+            message += '📦 *Товары:*\n';
+            
+            let total = 0;
+            for (let id in cart) {
+                let item = cart[id];
+                total += item.price * item.quantity;
+                message += `• ${item.name} — ${item.quantity} шт × ${item.price} ₽ = ${item.price * item.quantity} ₽\n`;
+            }
+            message += `\n💰 *ИТОГО: ${total} ₽*`;
+            
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
+            
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        console.log('✅ Заказ отправлен в Telegram');
+                    } else {
+                        console.log('❌ Ошибка отправки');
+                    }
+                })
+                .catch(error => console.log('Ошибка:', error));
+            
             document.getElementById('thankYouModal').style.display = 'flex';
         }
 
