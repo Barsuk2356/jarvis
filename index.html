@@ -3,371 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STARK INDUSTRIES | PIZZA OS</title>
-    <!-- Подключаем шрифты, но добавили запасные на случай отсутствия сети -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>JARVIS PIZZA SYSTEM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glow: #00d4ff;
-            --dark: #050a10;
-            --panel: rgba(0, 212, 255, 0.05);
-            --border: 1px solid rgba(0, 212, 255, 0.3);
-            --font-main: 'Roboto Mono', 'Courier New', monospace;
-            --font-header: 'Orbitron', sans-serif;
+            --glow-color: #00d4ff;
+            --bg-dark: #020b14;
+            --panel-bg: rgba(0, 212, 255, 0.05);
+            --border-glow: 1px solid rgba(0, 212, 255, 0.3);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--dark);
-            color: var(--glow);
-            font-family: var(--font-main);
-            overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-color: var(--bg-dark);
+            color: var(--glow-color);
+            font-family: 'Roboto Mono', monospace;
+            background-image: radial-gradient(circle at 50% 50%, #0a192f 0%, #020b14 100%);
+            min-height: 100vh;
         }
-
-        /* Эффект сканирующей полоски */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: rgba(0, 212, 255, 0.2);
-            opacity: 0.5;
-            z-index: 1000;
-            animation: scan 4s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan { 0% { top: 0; } 100% { top: 100vh; } }
 
         header {
-            padding: 50px 20px;
             text-align: center;
-            border-bottom: 2px solid var(--glow);
-            background: rgba(0, 0, 0, 0.8);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+            padding: 30px 20px;
+            border-bottom: var(--border-glow);
+            background: rgba(0, 20, 40, 0.6);
         }
 
-        .logo {
-            font-family: var(--font-header);
-            font-size: 3rem;
-            letter-spacing: 15px;
-            text-shadow: 0 0 20px var(--glow);
+        .stark-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
             font-weight: 700;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px var(--glow-color);
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 40px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 350px; gap: 30px; }
 
-        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
+        @media (max-width: 992px) { .container { grid-template-columns: 1fr; } }
 
         .section-title {
-            font-family: var(--font-header);
-            font-size: 1.4rem;
-            margin: 40px 0 25px;
-            padding: 10px;
-            background: rgba(0, 212, 255, 0.1);
-            border-left: 5px solid var(--glow);
-            clip-path: polygon(0 0, 95% 0, 100% 100%, 0 100%);
+            font-family: 'Orbitron', sans-serif;
+            margin: 40px 0 20px;
+            padding-left: 15px;
+            border-left: 4px solid var(--glow-color);
+            font-size: 1.1rem;
+            text-transform: uppercase;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
         .card {
-            background: var(--panel);
-            border: var(--border);
-            position: relative;
+            background: var(--panel-bg);
+            border: var(--border-glow);
+            border-radius: 2px;
+            overflow: hidden;
             transition: 0.3s;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        .card:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: var(--glow);
-            box-shadow: 0 0 25px rgba(0, 212, 255, 0.2);
-            transform: translateY(-5px);
-        }
-
-        /* Контейнер картинки */
-        .card-img-wrap {
-            width: 100%;
-            height: 220px;
-            background: #000;
-            overflow: hidden;
-            position: relative;
+        .card:hover { 
+            background: rgba(0, 212, 255, 0.1); 
+            border-color: var(--glow-color);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
         }
 
         .card-img {
             width: 100%;
-            height: 100%;
+            height: 200px;
             object-fit: cover;
-            opacity: 0.8;
-            transition: 0.5s;
+            border-bottom: var(--border-glow);
+            background: #111;
         }
 
-        .card:hover .card-img { opacity: 1; transform: scale(1.1); }
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
 
-        .card-content { padding: 20px; }
-        
-        .card h3 { font-family: var(--font-header); font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
+        .price { font-size: 1.4rem; color: #fff; margin: 10px 0; font-family: 'Orbitron'; }
 
-        .price { font-size: 1.6rem; margin: 15px 0; color: var(--glow); font-family: var(--font-header); }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
+        button {
             background: transparent;
-            border: 1px solid var(--glow);
-            color: var(--glow);
-            font-family: var(--font-header);
+            border: 1px solid var(--glow-color);
+            color: var(--glow-color);
+            padding: 12px;
             cursor: pointer;
-            transition: 0.3s;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            font-family: 'Orbitron', sans-serif;
+            width: 100%;
+            transition: 0.2s;
+            text-transform: uppercase;
         }
 
-        .btn:hover { background: var(--glow); color: #000; box-shadow: 0 0 20px var(--glow); }
+        button:hover { background: var(--glow-color); color: #000; box-shadow: 0 0 15px var(--glow-color); }
 
-        /* Боковая панель (Корзина) */
-        .sidebar {
+        .cart-panel {
+            background: rgba(0, 15, 30, 0.95);
+            border: 1px solid var(--glow-color);
+            padding: 25px;
             position: sticky;
             top: 20px;
-            height: fit-content;
-            background: rgba(0, 15, 30, 0.95);
-            border: 1px solid var(--glow);
-            padding: 30px;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
 
-        .cart-title { font-family: var(--font-header); font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid var(--glow); padding-bottom: 10px; }
+        .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0, 212, 255, 0.1); font-size: 0.85rem; }
+        
+        .remove-btn { width: auto; padding: 2px 8px; border-color: #ff3b3b; color: #ff3b3b; margin-left: 10px; font-size: 0.7rem; }
 
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .remove {
-            color: #ff4d4d;
-            cursor: pointer;
-            border: 1px solid #ff4d4d;
-            padding: 2px 8px;
-            font-size: 0.7rem;
-            margin-left: 10px;
-        }
-
-        .total {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid var(--glow);
-            background: rgba(0, 212, 255, 0.05);
-            text-align: center;
-        }
-
-        .total span { font-size: 1.8rem; font-family: var(--font-header); display: block; color: #fff; }
-
-        /* Форма заказа */
-        #order-form { display: none; margin-top: 25px; }
-        #order-form.active { display: block; }
+        .order-form { margin-top: 20px; display: none; }
+        .order-form.active { display: block; }
 
         input {
             width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            padding: 15px;
+            background: rgba(0, 30, 60, 0.4);
+            border: 1px solid rgba(0, 212, 255, 0.2);
             color: #fff;
-            margin-bottom: 15px;
-            font-family: var(--font-main);
+            padding: 12px;
+            margin-bottom: 10px;
+            outline: none;
         }
 
-        input:focus { border-color: var(--glow); box-shadow: 0 0 10px rgba(0, 212, 255, 0.2); }
-
-        /* Модалка */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9);
-            z-index: 2000;
             justify-content: center; align-items: center;
+            z-index: 1000;
         }
-
+        
         .modal-content {
-            background: var(--dark);
-            border: 2px solid var(--glow);
-            padding: 60px;
+            border: 1px solid var(--glow-color);
+            padding: 50px;
             text-align: center;
-            box-shadow: 0 0 100px var(--glow);
+            background: #020b14;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.3);
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">STARK</div>
-    <div style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px; letter-spacing: 5px;">INTERFACE: PIZZA-OS v.9.0.1</div>
+    <div class="stark-logo">STARK INDUSTRIES</div>
+    <p style="font-size: 0.7rem; color: #555; margin-top: 5px;">INTERFACE v7.1 // JARVIS ONLINE</p>
 </header>
 
 <div class="container">
     <main>
-        <div class="section-title">CORE MENU: ПИЦЦА</div>
+        <div class="section-title">Пицца // Core Menu</div>
         <div class="grid" id="pizzas"></div>
 
-        <div class="section-title">COOLING: НАПИТКИ</div>
+        <div class="section-title">Напитки // Cooling Unit</div>
         <div class="grid" id="drinks"></div>
 
-        <div class="section-title">ENERGY: ДЕСЕРТЫ</div>
+        <div class="section-title">Десерты // Energy Cells</div>
         <div class="grid" id="desserts"></div>
     </main>
 
     <aside>
-        <div class="sidebar">
-            <div class="cart-title">ACTIVE CARGO LOG</div>
-            <div id="cart-list">
-                <!-- Сюда падают товары -->
-                <div style="opacity: 0.3; text-align: center; padding: 20px;">EMPTY_LOG_</div>
+        <div class="cart-panel">
+            <h2 style="font-family: 'Orbitron'; margin-bottom: 15px; font-size: 1rem;">DATA LOG</h2>
+            <div id="cart-items"></div>
+            <div style="margin-top: 20px; padding: 15px; border: 1px solid var(--glow-color); text-align: right;">
+                TOTAL: <span id="total-price" style="color: #fff; font-size: 1.4rem;">0</span> ₽
             </div>
-
-            <div class="total">
-                ИТОГО К ОПЛАТЕ:
-                <span id="total-val">0 ₽</span>
+            
+            <div class="order-form" id="order-form">
+                <input type="text" id="name" placeholder="AGENT ID">
+                <input type="tel" id="phone" placeholder="COMMS">
+                <input type="text" id="address" placeholder="COORDINATES">
+                <button onclick="submitOrder()">INITIATE TRANSFER</button>
             </div>
-
-            <button class="btn" id="checkout-btn" style="margin-top: 20px; display: none;" onclick="showForm()">ОФОРМИТЬ ПОСТАВКУ</button>
-
-            <form id="order-form" onsubmit="sendOrder(event)">
-                <input type="text" id="user-name" placeholder="ID АГЕНТА (ИМЯ)" required>
-                <input type="tel" id="user-phone" placeholder="КАНАЛ СВЯЗИ (ТЕЛ)" required>
-                <input type="text" id="user-addr" placeholder="КООРДИНАТЫ (АДРЕС)" required>
-                <button type="submit" class="btn">ИНИЦИИРОВАТЬ ПЕРЕДАЧУ</button>
-            </form>
+            <button id="checkout-btn" style="margin-top: 15px;" onclick="toggleForm()">CHECKOUT</button>
         </div>
     </aside>
 </div>
 
-<div class="modal" id="modal">
+<div class="modal" id="thanks-modal">
     <div class="modal-content">
-        <h2 style="font-family: var(--font-header); font-size: 2rem; margin-bottom: 20px;">TRANSFER SUCCESS</h2>
-        <p>Дроны Stark Industries вылетели по вашему адресу.</p>
-        <button class="btn" style="margin-top: 40px; width: 200px; display: inline-block;" onclick="closeModal()">ЗАКРЫТЬ</button>
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 15px;">TRANSFERRED</h2>
+        <p>Ваш заказ обрабатывается системой Stark.</p>
+        <button onclick="closeModal()" style="margin-top: 20px; width: auto; padding: 10px 40px;">ВЫХОД</button>
     </div>
 </div>
 
 <script>
-    // База данных товаров. В Pepperoni вставлено твое фото (Base64)
-    const db = {
+    const menu = {
         pizzas: [
-            {id: 1, name: 'ПЕППЕРОНИ', price: 550, img: 'https://unsplash.com'},
-            {id: 2, name: 'МАРГАРИТА', price: 450, img: 'https://unsplash.com'},
-            {id: 3, name: 'ГАВАЙСКАЯ', price: 600, img: 'https://unsplash.com'},
-            {id: 4, name: 'МЯСНАЯ', price: 650, img: 'https://unsplash.com'},
-            {id: 5, name: '4 СЫРА', price: 580, img: 'https://unsplash.com'}
+            {id: 1, name: 'Пепперони', price: 550, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop'},
+            {id: 2, name: 'Маргарита', price: 450, img: 'https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400&h=300&fit=crop'},
+            {id: 3, name: 'Гавайская', price: 600, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop'},
+            {id: 4, name: 'Мясная', price: 650, img: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=400&h=300&fit=crop'},
+            {id: 5, name: 'Четыре сыра', price: 580, img: 'https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?w=400&h=300&fit=crop'}
         ],
         drinks: [
-            {id: 6, name: 'КОЛА', price: 100, img: 'https://unsplash.com'},
-            {id: 7, name: 'СПРАЙТ', price: 100, img: 'https://unsplash.com'},
-            {id: 8, name: 'ФАНТА', price: 100, img: 'https://unsplash.com'},
-            {id: 9, name: 'СОК АПЕЛЬСИН', price: 120, img: 'https://unsplash.com'}
+            {id: 6, name: 'Кола', price: 100, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop'},
+            {id: 7, name: 'Спрайт', price: 100, img: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&h=300&fit=crop'},
+            {id: 8, name: 'Фанта', price: 100, img: 'https://images.unsplash.com/photo-1625772452859-3c03d5a1be5c?w=400&h=300&fit=crop'},
+            {id: 9, name: 'Сок апельсин.', price: 120, img: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&h=300&fit=crop'}
         ],
         desserts: [
-            {id: 10, name: 'ЧИЗКЕЙК', price: 250, img: 'https://unsplash.com'},
-            {id: 11, name: 'БРАУНИ', price: 200, img: 'https://unsplash.com'},
-            {id: 12, name: 'ПАННА-КОТТА', price: 230, img: 'https://unsplash.com'}
+            {id: 10, name: 'Чизкейк', price: 250, img: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&h=300&fit=crop'},
+            {id: 11, name: 'Брауни', price: 200, img: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&h=300&fit=crop'},
+            {id: 12, name: 'Панна-котта', price: 230, img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop'}
         ]
     };
 
-    let cart = JSON.parse(localStorage.getItem('stark_cart')) || [];
+    let cart = JSON.parse(localStorage.getItem('jarvis_cart')) || [];
 
-    // Инициализация
     function init() {
-        render('pizzas', db.pizzas);
-        render('drinks', db.drinks);
-        render('desserts', db.desserts);
-        updateCart();
+        renderCategory('pizzas', menu.pizzas);
+        renderCategory('drinks', menu.drinks);
+        renderCategory('desserts', menu.desserts);
+        updateCartUI();
     }
 
-    function render(containerId, items) {
-        const div = document.getElementById(containerId);
-        div.innerHTML = items.map(i => `
+    function renderCategory(containerId, items) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = items.map(item => `
             <div class="card">
-                <div class="card-img-wrap">
-                    <img src="${i.img}" class="card-img" alt="${i.name}" 
-                         onerror="this.src='https://placeholder.com'">
-                </div>
+                <img src="${item.img}" class="card-img" alt="${item.name}" loading="lazy" onerror="this.style.display='none'">
                 <div class="card-content">
-                    <h3>${i.name}</h3>
-                    <div class="price">${i.price} ₽</div>
-                    <button class="btn" onclick="addToCart(${i.id}, '${i.name}', ${i.price})">ЗАГРУЗИТЬ</button>
+                    <h3>${item.name}</h3>
+                    <div class="price">${item.price} ₽</div>
+                    <button onclick="addToCart(${item.id}, '${item.name}', ${item.price})">ADD TO LIST</button>
                 </div>
             </div>
         `).join('');
     }
 
     function addToCart(id, name, price) {
-        cart.push({ cartId: Date.now(), name, price });
-        save();
-        updateCart();
+        cart.push({ cartId: Date.now() + id, name, price });
+        localStorage.setItem('jarvis_cart', JSON.stringify(cart));
+        updateCartUI();
     }
 
     function removeFromCart(cartId) {
-        cart = cart.filter(i => i.cartId !== cartId);
-        save();
-        updateCart();
+        cart = cart.filter(item => item.cartId !== cartId);
+        localStorage.setItem('jarvis_cart', JSON.stringify(cart));
+        updateCartUI();
     }
 
-    function save() {
-        localStorage.setItem('stark_cart', JSON.stringify(cart));
+    function updateCartUI() {
+        const list = document.getElementById('cart-items');
+        list.innerHTML = cart.map(item => `
+            <div class="cart-item">
+                <span>>> ${item.name}</span>
+                <span>${item.price} ₽ <button class="remove-btn" onclick="removeFromCart(${item.cartId})">X</button></span>
+            </div>
+        `).join('');
+        document.getElementById('total-price').innerText = cart.reduce((s, i) => s + i.price, 0);
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) checkoutBtn.style.display = cart.length > 0 ? 'block' : 'none';
     }
 
-    function updateCart() {
-        const list = document.getElementById('cart-list');
-        if (cart.length === 0) {
-            list.innerHTML = `<div style="opacity: 0.3; text-align: center; padding: 20px;">EMPTY_LOG_</div>`;
-            document.getElementById('checkout-btn').style.display = 'none';
-        } else {
-            list.innerHTML = cart.map(i => `
-                <div class="cart-item">
-                    <span>> ${i.name}</span>
-                    <span>${i.price} ₽ <span class="remove" onclick="removeFromCart(${i.cartId})">DEL</span></span>
-                </div>
-            `).join('');
-            document.getElementById('checkout-btn').style.display = 'block';
-        }
-        document.getElementById('total-val').innerText = cart.reduce((s, i) => s + i.price, 0) + ' ₽';
-    }
-
-    function showForm() {
+    function toggleForm() {
+        if (cart.length === 0) return;
         document.getElementById('order-form').classList.toggle('active');
+        document.getElementById('checkout-btn').style.display = 'none';
     }
 
-    function sendOrder(e) {
-        e.preventDefault();
-        document.getElementById('modal').style.display = 'flex';
+    function submitOrder() {
+        const name = document.getElementById('name').value;
+        if(!name) return alert('Auth Required!');
+        
+        let message = `🚨 НОВЫЙ ЗАКАЗ!\n👤 Имя: ${name}\n📞 Телефон: ${document.getElementById('phone').value}\n📍 Адрес: ${document.getElementById('address').value}\n\n📦 Заказ:\n`;
+        let total = 0;
+        cart.forEach(item => {
+            message += `• ${item.name} — 1 шт × ${item.price} ₽ = ${item.price} ₽\n`;
+            total += item.price;
+        });
+        message += `\n💰 ИТОГО: ${total} ₽`;
+        
+        const BOT_TOKEN = '8211100252:AAGkEDqdHJDK_3GvihoDVycnbJAjmcRJ1nY';
+        const CHAT_ID = 5382774705;
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}`;
+        
+        fetch(url).catch(() => console.log('Ошибка отправки, но заказ принят'));
+        
+        document.getElementById('thanks-modal').style.display = 'flex';
         cart = [];
-        save();
-        updateCart();
+        localStorage.removeItem('jarvis_cart');
+        updateCartUI();
         document.getElementById('order-form').classList.remove('active');
-        e.target.reset();
+        document.getElementById('name').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('address').value = '';
     }
 
     function closeModal() {
-        document.getElementById('modal').style.display = 'none';
+        document.getElementById('thanks-modal').style.display = 'none';
     }
 
     init();
